@@ -1,0 +1,349 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Transactions
+ *   description: Operações de transações bancárias
+ */
+
+/**
+ * @swagger
+ * /transactions:
+ *   get:
+ *     summary: Obtém todas as transações
+ *     tags: [Transactions]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Lista de transações obtida com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     transactions:
+ *                       type: array
+ *                       items:
+ *                         $ref: '#/components/schemas/Transaction'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ * 
+ * /transactions/{id}:
+ *   get:
+ *     summary: Obtém uma transação pelo ID
+ *     tags: [Transactions]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID da transação
+ *     responses:
+ *       200:
+ *         description: Transação obtida com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     transaction:
+ *                       $ref: '#/components/schemas/Transaction'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       404:
+ *         $ref: '#/components/responses/NotFoundError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ * 
+ * /transactions/account/{accountId}:
+ *   get:
+ *     summary: Obtém todas as transações de uma conta
+ *     tags: [Transactions]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: accountId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID da conta
+ *     responses:
+ *       200:
+ *         description: Lista de transações da conta obtida com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     transactions:
+ *                       type: array
+ *                       items:
+ *                         $ref: '#/components/schemas/Transaction'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         description: Acesso proibido, apenas o proprietário da conta ou administradores podem acessar
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         $ref: '#/components/responses/NotFoundError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ * 
+ * /transactions/deposit:
+ *   post:
+ *     summary: Realiza um depósito em uma conta
+ *     tags: [Transactions]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - destinationAccountId
+ *               - amount
+ *             properties:
+ *               destinationAccountId:
+ *                 type: string
+ *                 description: ID da conta de destino
+ *               amount:
+ *                 type: number
+ *                 description: Valor do depósito
+ *                 minimum: 0.01
+ *               description:
+ *                 type: string
+ *                 description: Descrição do depósito
+ *     responses:
+ *       201:
+ *         description: Depósito realizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     transaction:
+ *                       $ref: '#/components/schemas/Transaction'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       404:
+ *         description: Conta de destino não encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ * 
+ * /transactions/withdraw:
+ *   post:
+ *     summary: Realiza um saque de uma conta
+ *     tags: [Transactions]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - sourceAccountId
+ *               - amount
+ *             properties:
+ *               sourceAccountId:
+ *                 type: string
+ *                 description: ID da conta de origem
+ *               amount:
+ *                 type: number
+ *                 description: Valor do saque
+ *                 minimum: 0.01
+ *               description:
+ *                 type: string
+ *                 description: Descrição do saque
+ *     responses:
+ *       201:
+ *         description: Saque realizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     transaction:
+ *                       $ref: '#/components/schemas/Transaction'
+ *       400:
+ *         description: Erro de validação ou saldo insuficiente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         description: Acesso proibido, apenas o proprietário da conta ou administradores podem realizar saques
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Conta de origem não encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ * 
+ * /transactions/transfer:
+ *   post:
+ *     summary: Realiza uma transferência entre contas
+ *     tags: [Transactions]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - sourceAccountId
+ *               - destinationAccountId
+ *               - amount
+ *             properties:
+ *               sourceAccountId:
+ *                 type: string
+ *                 description: ID da conta de origem
+ *               destinationAccountId:
+ *                 type: string
+ *                 description: ID da conta de destino
+ *               amount:
+ *                 type: number
+ *                 description: Valor da transferência
+ *                 minimum: 0.01
+ *               description:
+ *                 type: string
+ *                 description: Descrição da transferência
+ *     responses:
+ *       201:
+ *         description: Transferência realizada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     transaction:
+ *                       $ref: '#/components/schemas/Transaction'
+ *       400:
+ *         description: Erro de validação, saldo insuficiente ou contas iguais
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         description: Acesso proibido, apenas o proprietário da conta de origem ou administradores podem realizar transferências
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         description: Conta de origem ou destino não encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ * 
+ * /transactions/{id}/cancel:
+ *   patch:
+ *     summary: Cancela uma transação pendente
+ *     tags: [Transactions]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID da transação
+ *     responses:
+ *       200:
+ *         description: Transação cancelada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     transaction:
+ *                       $ref: '#/components/schemas/Transaction'
+ *       400:
+ *         description: Apenas transações pendentes podem ser canceladas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       404:
+ *         $ref: '#/components/responses/NotFoundError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */

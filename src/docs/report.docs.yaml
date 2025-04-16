@@ -1,0 +1,225 @@
+/**
+ * @swagger
+ * tags:
+ *   name: Reports
+ *   description: Relatórios de transações bancárias
+ */
+
+/**
+ * @swagger
+ * /reports/transactions/{id}/receipt:
+ *   get:
+ *     summary: Gera um recibo para uma transação
+ *     tags: [Reports]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID da transação
+ *     responses:
+ *       200:
+ *         description: Recibo gerado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     receipt:
+ *                       type: string
+ *                       description: Texto do recibo formatado
+ *                     transaction:
+ *                       $ref: '#/components/schemas/Transaction'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       404:
+ *         $ref: '#/components/responses/NotFoundError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ * 
+ * /reports/accounts/{accountId}/summary:
+ *   get:
+ *     summary: Obtém um resumo das transações de uma conta
+ *     tags: [Reports]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: accountId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID da conta
+ *       - in: query
+ *         name: startDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *         description: Data inicial para filtrar transações (formato ISO)
+ *       - in: query
+ *         name: endDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *         description: Data final para filtrar transações (formato ISO)
+ *     responses:
+ *       200:
+ *         description: Resumo obtido com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     summary:
+ *                       type: object
+ *                       properties:
+ *                         accountNumber:
+ *                           type: string
+ *                           description: Número da conta
+ *                         accountType:
+ *                           type: string
+ *                           description: Tipo da conta
+ *                         period:
+ *                           type: object
+ *                           properties:
+ *                             startDate:
+ *                               type: string
+ *                               format: date-time
+ *                             endDate:
+ *                               type: string
+ *                               format: date-time
+ *                         transactions:
+ *                           type: object
+ *                           properties:
+ *                             total:
+ *                               type: integer
+ *                               description: Total de transações
+ *                             deposits:
+ *                               type: object
+ *                               properties:
+ *                                 count:
+ *                                   type: integer
+ *                                 total:
+ *                                   type: number
+ *                             withdrawals:
+ *                               type: object
+ *                               properties:
+ *                                 count:
+ *                                   type: integer
+ *                                 total:
+ *                                   type: number
+ *                             transfers:
+ *                               type: object
+ *                               properties:
+ *                                 incoming:
+ *                                   type: object
+ *                                   properties:
+ *                                     count:
+ *                                       type: integer
+ *                                     total:
+ *                                       type: number
+ *                                 outgoing:
+ *                                   type: object
+ *                                   properties:
+ *                                     count:
+ *                                       type: integer
+ *                                     total:
+ *                                       type: number
+ *                         balance:
+ *                           type: number
+ *                           description: Saldo final
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         description: Acesso proibido, apenas o proprietário da conta ou administradores podem acessar
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         $ref: '#/components/responses/NotFoundError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ * 
+ * /reports/accounts/{accountId}/balance:
+ *   get:
+ *     summary: Calcula o saldo de uma conta em um período
+ *     tags: [Reports]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: accountId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID da conta
+ *       - in: query
+ *         name: startDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *         description: Data inicial para filtrar transações (formato ISO)
+ *       - in: query
+ *         name: endDate
+ *         schema:
+ *           type: string
+ *           format: date
+ *         description: Data final para filtrar transações (formato ISO)
+ *     responses:
+ *       200:
+ *         description: Saldo calculado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     accountId:
+ *                       type: string
+ *                     balance:
+ *                       type: number
+ *                     formattedBalance:
+ *                       type: string
+ *                     period:
+ *                       type: object
+ *                       properties:
+ *                         startDate:
+ *                           type: string
+ *                           format: date-time
+ *                         endDate:
+ *                           type: string
+ *                           format: date-time
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
+ *       403:
+ *         description: Acesso proibido, apenas o proprietário da conta ou administradores podem acessar
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ *       404:
+ *         $ref: '#/components/responses/NotFoundError'
+ *       500:
+ *         $ref: '#/components/responses/ServerError'
+ */
