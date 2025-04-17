@@ -71,7 +71,8 @@ describe('Auth Controller', () => {
         name: 'Usuário Existente',
         email: 'existente@email.com',
         password: 'Senha@123',
-        cpf: '12345678900'
+        cpf: '12345678900',
+        role: 'admin'
       };
       
       await User.create(userData);
@@ -111,7 +112,8 @@ describe('Auth Controller', () => {
         name: 'Usuário Login',
         email: 'login@email.com',
         password: 'Senha@123',
-        cpf: '12345678900'
+        cpf: '12345678900',
+        role: 'admin'
       };
       
       await request(app.app)
@@ -146,7 +148,8 @@ describe('Auth Controller', () => {
         name: 'Usuário Credenciais',
         email: 'credenciais@email.com',
         password: 'Senha@123',
-        cpf: '12345678900'
+        cpf: '12345678900',
+        role: 'admin'
       };
       
       await request(app.app)

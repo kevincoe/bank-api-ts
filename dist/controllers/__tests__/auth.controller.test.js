@@ -64,7 +64,8 @@ describe('Auth Controller', () => {
                 name: 'Usuário Existente',
                 email: 'existente@email.com',
                 password: 'Senha@123',
-                cpf: '12345678900'
+                cpf: '12345678900',
+                role: 'admin'
             };
             await models_1.User.create(userData);
             // Tentar registrar com mesmo email
@@ -97,7 +98,8 @@ describe('Auth Controller', () => {
                 name: 'Usuário Login',
                 email: 'login@email.com',
                 password: 'Senha@123',
-                cpf: '12345678900'
+                cpf: '12345678900',
+                role: 'admin'
             };
             await (0, supertest_1.default)(app.app)
                 .post('/api/auth/register')
@@ -126,7 +128,8 @@ describe('Auth Controller', () => {
                 name: 'Usuário Credenciais',
                 email: 'credenciais@email.com',
                 password: 'Senha@123',
-                cpf: '12345678900'
+                cpf: '12345678900',
+                role: 'admin'
             };
             await (0, supertest_1.default)(app.app)
                 .post('/api/auth/register')

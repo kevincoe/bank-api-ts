@@ -2,6 +2,16 @@ import { Request, Response, NextFunction } from 'express';
 import { validate } from './common.middleware';
 import { verifyToken } from './verify-token.middleware';
 import { SecurityMiddlewareImpl } from './security.middleware';
+import { IUser } from '../models/user.model';
+
+// Extend Express Request interface
+declare global {
+  namespace Express {
+    interface Request {
+      user?: IUser;
+    }
+  }
+}
 
 const securityMiddleware = new SecurityMiddlewareImpl();
 
@@ -31,36 +41,6 @@ const notFound = (req: Request, res: Response, next: NextFunction): void => {
   next(error);
 };
 
-const requestLogger = (req: Request, res: Response, next: NextFunction): void => {
-  const start = Date.now();
-  res.on('finish', () => {
-    const ms = Date.now() - start;
-    console.log(`${req.method} ${req.originalUrl} ${res.statusCode} ${ms}ms`);
-  });
-  next();
-};
-
-// Create validateJSON middleware
-const validateJSON = (req: Request, res: Response, next: NextFunction): void => {
-  if ((req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') && 
-      req.headers['content-type'] === 'application/json') {
-    try {
-      if (req.body && typeof req.body === 'object') {
-        next();
-      } else {
-        throw new Error('Invalid JSON');
-      }
-    } catch (e) {
-      res.status(400).json({ 
-        status: 'error',
-        message: 'Invalid JSON in request body'
-      });
-      return;
-    }
-  }
-  next();
-};
-
 // Create rate limiting middleware
 const rateLimit = require('express-rate-limit');
 
@@ -71,6 +51,5 @@ export {
   verifyToken,
   securityMiddleware,
   notFound,
-  requestLogger,
-  validateJSON
+  rateLimit
 };

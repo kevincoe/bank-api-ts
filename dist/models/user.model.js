@@ -108,10 +108,13 @@ UserSchema.pre('save', async function (next) {
  */
 UserSchema.methods.comparePassword = async function (candidatePassword) {
     try {
+        if (!this.password || !candidatePassword)
+            return false;
         return await bcryptjs_1.default.compare(candidatePassword, this.password);
     }
     catch (error) {
-        throw new Error('Erro ao comparar senha');
+        console.error('Password comparison error:', error);
+        return false; // Return false instead of throwing
     }
 };
 const User = mongoose_1.default.model('User', UserSchema);

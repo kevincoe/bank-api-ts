@@ -42,17 +42,17 @@ describe('Transaction Controller', () => {
     authToken = response.body.data.token;
     userId = response.body.data.user.id;
     
-    // Criar contas para testes de transações
+
     const sourceAccount = await Account.create({
       type: 'checking',
-      user: new mongoose.Types.ObjectId(userId), // Convert to ObjectId
+      user: new mongoose.Types.ObjectId(userId), // Must be a valid ObjectId
       balance: 1000,
       accountNumber: '123456'
     });
-    
+
     const destinationAccount = await Account.create({
       type: 'savings',
-      user: userId,
+      user: new mongoose.Types.ObjectId(userId), // Must be a valid ObjectId
       balance: 500,
       accountNumber: '654321'
     });
