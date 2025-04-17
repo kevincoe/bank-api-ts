@@ -70,8 +70,8 @@ export class AuthService implements IAuthService {
    */
   private generateToken(user: IUser): string {
     return jwt.sign(
-      { id: user._id, role: user.role },
-      config.jwtSecret,
+      { id: user._id },
+      config.jwtSecret as string,
       { expiresIn: config.jwtExpiresIn }
     );
   }

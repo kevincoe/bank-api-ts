@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Model } from 'mongoose';
 
 /**
  * Enum para tipos de conta
@@ -20,6 +20,11 @@ export interface IAccount extends Document {
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
+}
+
+// Define interface for Account model with static methods
+interface IAccountModel extends Model<IAccount> {
+  generateAccountNumber(): Promise<string>;
 }
 
 /**
@@ -55,7 +60,7 @@ const AccountSchema: Schema = new Schema(
     },
   },
   {
-    timestamps: true, // Adiciona createdAt e updatedAt
+    timestamps: true,
   }
 );
 
@@ -77,6 +82,7 @@ AccountSchema.statics.generateAccountNumber = async function(): Promise<string> 
   return accountNumber;
 };
 
-const Account = mongoose.model<IAccount>('Account', AccountSchema);
+// Use the interface with static method
+const Account = mongoose.model<IAccount, IAccountModel>('Account', AccountSchema);
 
 export default Account;

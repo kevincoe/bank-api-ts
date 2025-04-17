@@ -4,6 +4,7 @@ import App from '../../app';
 import { User, Account } from '../../models'; 
 import jwt from 'jsonwebtoken';
 import config from '../../config/config';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
 describe('Account Controller', () => {
   let app: App;

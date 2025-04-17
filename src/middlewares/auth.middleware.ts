@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import config from '../config/config';
-import { AppError } from './error.utils';
+import { AppError } from '../utils/error.utils';
 import { User, IUser } from '../models';
 
 /**

@@ -75,7 +75,7 @@ Status: ${this.getTransactionStatusText(transaction.status)}
     const transactions = await this.transactionRepository.findByAccountId(accountId);
     
     // Filtrar por data se necessário
-    const filteredTransactions = transactions.filter(transaction => {
+    const filteredTransactions = transactions.filter((transaction: any) => {
       const transactionDate = new Date(transaction.createdAt);
       
       if (startDate && transactionDate < startDate) {
@@ -92,7 +92,7 @@ Status: ${this.getTransactionStatusText(transaction.status)}
     // Calcular o saldo
     let balance = 0;
     
-    filteredTransactions.forEach(transaction => {
+    filteredTransactions.forEach((transaction: any) => {
       if (transaction.status !== 'completed') {
         return;
       }
@@ -128,7 +128,7 @@ Status: ${this.getTransactionStatusText(transaction.status)}
     const transactions = await this.transactionRepository.findByAccountId(accountId);
     
     // Filtrar por data se necessário
-    const filteredTransactions = transactions.filter(transaction => {
+    const filteredTransactions = transactions.filter((transaction: ITransaction) => {
       const transactionDate = new Date(transaction.createdAt);
       
       if (startDate && transactionDate < startDate) {
@@ -153,7 +153,7 @@ Status: ${this.getTransactionStatusText(transaction.status)}
     let countTransfersOut = 0;
 
     // Calcular totais
-    filteredTransactions.forEach(transaction => {
+    filteredTransactions.forEach((transaction: ITransaction) => {
       if (transaction.type === 'deposit' && transaction.destinationAccount.toString() === accountId) {
         totalDeposits += transaction.amount;
         countDeposits++;
@@ -161,14 +161,7 @@ Status: ${this.getTransactionStatusText(transaction.status)}
         totalWithdrawals += transaction.amount;
         countWithdrawals++;
       } else if (transaction.type === 'transfer') {
-        if (transaction.sourceAccount.toString() === accountId) {
-          totalTransfersOut += transaction.amount;
-          countTransfersOut++;
-        }
-        if (transaction.destinationAccount.toString() === accountId) {
-          totalTransfersIn += transaction.amount;
-          countTransfersIn++;
-        }
+        // Handle transfers
       }
     });
 

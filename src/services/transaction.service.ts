@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { IAccountRepository } from '../repositories/account.repository';
 import { ITransactionRepository } from '../repositories/transaction.repository';
 import { AppError } from '../utils/error.utils';
@@ -80,7 +81,7 @@ export class TransactionService implements ITransactionService {
     const transaction = await this.transactionRepository.create({
       type: TransactionType.DEPOSIT,
       amount,
-      destinationAccount: destinationAccountId,
+      destinationAccount: new mongoose.Types.ObjectId(destinationAccountId),
       description: description || 'Depósito',
       status: TransactionStatus.PENDING,
     });
@@ -91,13 +92,13 @@ export class TransactionService implements ITransactionService {
 
       // Atualizar o status da transação
       return this.transactionRepository.updateStatus(
-        transaction._id,
+        transaction._id?.toString() || '',
         TransactionStatus.COMPLETED
       ) as Promise<ITransaction>;
     } catch (error) {
       // Em caso de erro, atualizar o status da transação
       await this.transactionRepository.updateStatus(
-        transaction._id,
+        transaction._id?.toString() || '',
         TransactionStatus.FAILED
       );
       throw new AppError('Erro ao processar depósito', 500);
@@ -133,7 +134,7 @@ export class TransactionService implements ITransactionService {
     const transaction = await this.transactionRepository.create({
       type: TransactionType.WITHDRAWAL,
       amount,
-      sourceAccount: sourceAccountId,
+      sourceAccount: new mongoose.Types.ObjectId(sourceAccountId),
       description: description || 'Saque',
       status: TransactionStatus.PENDING,
     });
@@ -144,13 +145,13 @@ export class TransactionService implements ITransactionService {
 
       // Atualizar o status da transação
       return this.transactionRepository.updateStatus(
-        transaction._id,
+        transaction._id?.toString() || '',
         TransactionStatus.COMPLETED
       ) as Promise<ITransaction>;
     } catch (error) {
       // Em caso de erro, atualizar o status da transação
       await this.transactionRepository.updateStatus(
-        transaction._id,
+        transaction._id?.toString() || '',
         TransactionStatus.FAILED
       );
       throw new AppError('Erro ao processar saque', 500);
@@ -205,8 +206,8 @@ export class TransactionService implements ITransactionService {
     const transaction = await this.transactionRepository.create({
       type: TransactionType.TRANSFER,
       amount,
-      sourceAccount: sourceAccountId,
-      destinationAccount: destinationAccountId,
+      sourceAccount: new mongoose.Types.ObjectId(sourceAccountId),
+      destinationAccount: new mongoose.Types.ObjectId(destinationAccountId),
       description: description || 'Transferência',
       status: TransactionStatus.PENDING,
     });
@@ -218,13 +219,13 @@ export class TransactionService implements ITransactionService {
 
       // Atualizar o status da transação
       return this.transactionRepository.updateStatus(
-        transaction._id,
+        transaction._id?.toString() || '',
         TransactionStatus.COMPLETED
       ) as Promise<ITransaction>;
     } catch (error) {
       // Em caso de erro, atualizar o status da transação
       await this.transactionRepository.updateStatus(
-        transaction._id,
+        transaction._id?.toString() || '',
         TransactionStatus.FAILED
       );
       throw new AppError('Erro ao processar transferência', 500);
