@@ -80,19 +80,21 @@ const AccountSchema = new mongoose_1.Schema({
 /**
  * Método estático para gerar número de conta único
  */
-AccountSchema.statics.generateAccountNumber = async function () {
-    // Gera um número aleatório de 10 dígitos
+// Alternative approach: define the function separately
+async function generateAccountNumber() {
     const randomNum = Math.floor(Math.random() * 9000000000) + 1000000000;
     const accountNumber = randomNum.toString();
-    // Verifica se já existe
+    // @ts-ignore - Using 'this' as the model in the static context
     const existingAccount = await this.findOne({ accountNumber });
     if (existingAccount) {
-        // Recursivamente tenta gerar outro número se já existir
+        // @ts-ignore - Using 'this' for recursion in the static context
         return this.generateAccountNumber();
     }
     return accountNumber;
-};
-// Create the model with the correct interface
+}
+// Assign the function to the schema statics
+AccountSchema.statics.generateAccountNumber = generateAccountNumber;
+// Create the model with the proper typing
 const Account = mongoose_1.default.model('Account', AccountSchema);
 exports.default = Account;
 //# sourceMappingURL=account.model.js.map

@@ -22,15 +22,15 @@ export interface IAccount extends Document {
   updatedAt: Date;
 }
 
-// Define interface for Account model with static methods
-interface IAccountModel extends Model<IAccount> {
+// Define interface for the statics
+interface AccountStatics {
   generateAccountNumber(): Promise<string>;
 }
 
 /**
  * Schema do Mongoose para o modelo de Conta
  */
-const AccountSchema: Schema = new Schema(
+const AccountSchema = new Schema(
   {
     accountNumber: {
       type: String,
@@ -67,22 +67,25 @@ const AccountSchema: Schema = new Schema(
 /**
  * Método estático para gerar número de conta único
  */
-AccountSchema.statics.generateAccountNumber = async function(): Promise<string> {
-  // Gera um número aleatório de 10 dígitos
+// Alternative approach: define the function separately
+async function generateAccountNumber(): Promise<string> {
   const randomNum = Math.floor(Math.random() * 9000000000) + 1000000000;
   const accountNumber = randomNum.toString();
   
-  // Verifica se já existe
+  // @ts-ignore - Using 'this' as the model in the static context
   const existingAccount = await this.findOne({ accountNumber });
   if (existingAccount) {
-    // Recursivamente tenta gerar outro número se já existir
+    // @ts-ignore - Using 'this' for recursion in the static context
     return this.generateAccountNumber();
   }
   
   return accountNumber;
-};
+}
 
-// Fix: Use the IAccountModel type explicitly when creating the model
-const Account = mongoose.model<IAccount, IAccountModel>('Account', AccountSchema);
+// Assign the function to the schema statics
+AccountSchema.statics.generateAccountNumber = generateAccountNumber;
+
+// Create the model with the proper typing
+const Account = mongoose.model<IAccount, Model<IAccount> & AccountStatics>('Account', AccountSchema);
 
 export default Account;

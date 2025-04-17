@@ -71,9 +71,11 @@ export class AuthService implements IAuthService {
    */
   private generateToken(user: IUser): string {
     const payload = { id: user._id };
-    const secret = config.jwtSecret as string;
-    const options: SignOptions = { expiresIn: config.jwtExpiresIn };
     
-    return jwt.sign(payload, secret, options);
+    return jwt.sign(
+      payload, 
+      config.jwtSecret as string,
+      { expiresIn: config.jwtExpiresIn } as jwt.SignOptions
+    );
   }
 }

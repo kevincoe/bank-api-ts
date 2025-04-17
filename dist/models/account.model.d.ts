@@ -1,4 +1,4 @@
-import mongoose, { Document, Model } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 /**
  * Enum para tipos de conta
  */
@@ -19,8 +19,12 @@ export interface IAccount extends Document {
     createdAt: Date;
     updatedAt: Date;
 }
-interface IAccountModel extends Model<IAccount> {
+interface AccountStatics {
     generateAccountNumber(): Promise<string>;
 }
-declare const Account: IAccountModel;
+declare const Account: mongoose.Model<IAccount, {}, {}, {}, mongoose.Document<unknown, {}, IAccount> & IAccount & Required<{
+    _id: unknown;
+}> & {
+    __v: number;
+}, any> & AccountStatics;
 export default Account;
