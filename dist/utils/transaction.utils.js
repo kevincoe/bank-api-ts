@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TransactionUtils = void 0;
-const error_utils_1 = require("../utils/error.utils");
+const error_utils_1 = require("./error.utils");
 /**
  * Classe utilitária para transações
  */
@@ -34,8 +34,8 @@ class TransactionUtils {
      */
     static generateReferenceNumber() {
         const timestamp = Date.now().toString();
-        const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-        return `TRX${timestamp}${random}`;
+        const random = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+        return `REF-${timestamp}-${random}`;
     }
 }
 exports.TransactionUtils = TransactionUtils;

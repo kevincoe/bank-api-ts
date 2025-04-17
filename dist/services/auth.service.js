@@ -57,9 +57,7 @@ class AuthService {
      */
     generateToken(user) {
         const payload = { id: user._id };
-        const secret = config_1.default.jwtSecret;
-        // Using explicit string type assertion for expiresIn
-        return jsonwebtoken_1.default.sign(payload, secret, { expiresIn: config_1.default.jwtExpiresIn });
+        return jsonwebtoken_1.default.sign(payload, config_1.default.jwtSecret, { expiresIn: config_1.default.jwtExpiresIn });
     }
 }
 exports.AuthService = AuthService;

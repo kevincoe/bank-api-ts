@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
+import mongoose from 'mongoose';
 import { TransactionService } from '../services/transaction.service';
-import { AppError } from '../utils/error.utils';
+import { AppError } from './error.utils';
+import { IAccount } from '../models';
 
 /**
  * Classe utilitária para transações
@@ -42,7 +44,7 @@ export class TransactionUtils {
    */
   static generateReferenceNumber(): string {
     const timestamp = Date.now().toString();
-    const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
-    return `TRX${timestamp}${random}`;
+    const random = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+    return `REF-${timestamp}-${random}`;
   }
 }

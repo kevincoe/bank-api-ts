@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1744897382471" clover="3.2.0">
-  <project timestamp="1744897382471" name="All files">
-    <metrics statements="988" coveredstatements="15" conditionals="256" coveredconditionals="6" methods="165" coveredmethods="7" elements="1409" coveredelements="28" complexity="0" loc="988" ncloc="988" packages="10" files="43" classes="43"/>
+<coverage generated="1744897853728" clover="3.2.0">
+  <project timestamp="1744897853728" name="All files">
+    <metrics statements="981" coveredstatements="15" conditionals="255" coveredconditionals="6" methods="162" coveredmethods="7" elements="1398" coveredelements="28" complexity="0" loc="981" ncloc="981" packages="10" files="42" classes="42"/>
     <package name="src">
       <metrics statements="64" coveredstatements="0" conditionals="3" coveredconditionals="0" methods="12" coveredmethods="0"/>
       <file name="app.ts" path="/home/kevin/estudos/bank-api-ts/src/app.ts">
@@ -1018,7 +1018,7 @@
       </file>
     </package>
     <package name="src.utils">
-      <metrics statements="82" coveredstatements="15" conditionals="25" coveredconditionals="6" methods="13" coveredmethods="7"/>
+      <metrics statements="75" coveredstatements="15" conditionals="24" coveredconditionals="6" methods="10" coveredmethods="7"/>
       <file name="error.utils.ts" path="/home/kevin/estudos/bank-api-ts/src/utils/error.utils.ts">
         <metrics statements="59" coveredstatements="15" conditionals="21" coveredconditionals="6" methods="8" coveredmethods="7"/>
         <line num="16" count="1" type="stmt"/>
@@ -1082,33 +1082,23 @@
         <line num="166" count="0" type="stmt"/>
       </file>
       <file name="swagger.utils.ts" path="/home/kevin/estudos/bank-api-ts/src/utils/swagger.utils.ts">
-        <metrics statements="11" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <metrics statements="16" coveredstatements="0" conditionals="3" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="2" count="0" type="stmt"/>
         <line num="3" count="0" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
-        <line num="310" count="0" type="stmt"/>
-        <line num="315" count="0" type="stmt"/>
+        <line num="311" count="0" type="stmt"/>
+        <line num="313" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="314" count="0" type="stmt"/>
         <line num="317" count="0" type="stmt"/>
-        <line num="320" count="0" type="stmt"/>
-        <line num="321" count="0" type="stmt"/>
-        <line num="322" count="0" type="stmt"/>
+        <line num="324" count="0" type="stmt"/>
         <line num="325" count="0" type="stmt"/>
-      </file>
-      <file name="transaction.utils.ts" path="/home/kevin/estudos/bank-api-ts/src/utils/transaction.utils.ts">
-        <metrics statements="12" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="3" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="17" count="0" type="stmt"/>
-        <line num="18" count="0" type="cond" truecount="0" falsecount="1"/>
-        <line num="19" count="0" type="stmt"/>
-        <line num="23" count="0" type="cond" truecount="0" falsecount="3"/>
-        <line num="24" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="44" count="0" type="stmt"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="46" count="0" type="stmt"/>
+        <line num="331" count="0" type="stmt"/>
+        <line num="333" count="0" type="cond" truecount="0" falsecount="1"/>
+        <line num="336" count="0" type="stmt"/>
+        <line num="339" count="0" type="stmt"/>
+        <line num="340" count="0" type="stmt"/>
+        <line num="341" count="0" type="stmt"/>
       </file>
     </package>
     <package name="src.validators">
