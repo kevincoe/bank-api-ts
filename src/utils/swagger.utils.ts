@@ -311,7 +311,12 @@ let swaggerSpec: any;
 try {
   // Only generate spec if not in test environment
   if (process.env.NODE_ENV !== 'test') {
-    swaggerSpec = swaggerJsdoc(swaggerOptions);
+    // Fix: Use JavaScript files in dist folder instead of TypeScript files
+    const modifiedOptions = {
+      ...swaggerOptions,
+      apis: ['./dist/routes/*.js']
+    };
+    swaggerSpec = swaggerJsdoc(modifiedOptions);
   } else {
     // Provide placeholder during tests
     swaggerSpec = {
