@@ -5,18 +5,73 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:  # Allow manual triggering
+
+env:
+  NODE_ENV: test
+  JWT_SECRET: test_jwt_secret
+  JWT_EXPIRES_IN: 1h
 
 jobs:
-  build-and-test:
+  lint-and-format:
     runs-on: ubuntu-latest
-
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js 20.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20.x
+        
+    - name: Cache node modules
+      uses: actions/cache@v3
+      id: npm-cache
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+          
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Install ESLint v8
+      run: npm install eslint@8.x --save-dev
+      
+    - name: Install Prettier
+      run: npm install prettier --save-dev
+      
+    - name: Format code
+      run: npx prettier --write "**/*.{js,ts,json,md}"
+      
+    - name: Lint
+      run: npm run lint
+      continue-on-error: true  # Don't fail the build on lint errors
+      
+    - name: Upload formatted code
+      uses: actions/upload-artifact@v3
+      with:
+        name: formatted-code
+        path: src/
+        
+  test:
+    needs: lint-and-format
+    runs-on: ubuntu-latest
+    
     strategy:
       matrix:
         node-version: [18.x, 20.x]
         mongodb-version: [6.0]
-
+        
     steps:
     - uses: actions/checkout@v3
+    
+    - name: Download formatted code
+      uses: actions/download-artifact@v3
+      with:
+        name: formatted-code
+        path: src/
     
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
@@ -27,19 +82,21 @@ jobs:
       uses: supercharge/mongodb-github-action@1.10.0
       with:
         mongodb-version: ${{ matrix.mongodb-version }}
+        
+    - name: Cache node modules
+      uses: actions/cache@v3
+      id: npm-cache
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
     
     - name: Install dependencies
       run: npm ci
       
-    - name: Install ESLint v8 and Prettier
-      run: npm install eslint@8.x prettier --save-dev
-    
-    - name: Format code
-      run: npx prettier --write "**/*.{js,ts,json,md}"
-    
-    - name: Lint
-      run: npm run lint
-      continue-on-error: true  # Don't fail the build on lint errors
+    - name: Install ESLint v8
+      run: npm install eslint@8.x --save-dev
     
     - name: Build
       run: npm run build
@@ -47,21 +104,17 @@ jobs:
     - name: Test
       run: npm test
       env:
-        NODE_ENV: test
         MONGODB_URI: mongodb://localhost:27017/bank-api-test
-        JWT_SECRET: test_jwt_secret
-        JWT_EXPIRES_IN: 1h
     
     - name: Upload coverage reports
       uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         directory: ./coverage/
-        fail_ci_if_error: false  # Don't fail if coverage upload fails
-
-  deploy:
-    needs: build-and-test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        fail_ci_if_error: false
+        
+  build:
+    needs: test
     runs-on: ubuntu-latest
     
     steps:
@@ -77,16 +130,34 @@ jobs:
     
     - name: Build
       run: npm run build
+      
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist
+        path: dist/
+        
+  deploy-ssh:
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: production
     
-    - name: Deploy to production
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: dist
+        path: dist/
+    
+    - name: Deploy to production server
       run: |
-        echo "Deploying to production server..."
-        # Configure SSH
+        echo "Deploying to production server using SSH..."
         mkdir -p ~/.ssh
         echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/deploy_key
         chmod 600 ~/.ssh/deploy_key
-        
-        # Add server to known hosts
         echo "${{ secrets.SERVER_HOST_KEY }}" >> ~/.ssh/known_hosts
         
         # Deploy using rsync
@@ -95,7 +166,7 @@ jobs:
           --exclude='node_modules/' \
           ./ ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:${{ secrets.DEPLOY_PATH }}
           
-        # Restart application via SSH
+        # Restart application via PM2
         ssh -i ~/.ssh/deploy_key ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
           "cd ${{ secrets.DEPLOY_PATH }} && npm ci --production && pm2 restart bank-api || pm2 start dist/index.js --name bank-api"
       env:
