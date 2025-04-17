@@ -45,7 +45,7 @@ describe('Transaction Controller', () => {
     // Criar contas para testes de transações
     const sourceAccount = await Account.create({
       type: 'checking',
-      user: userId,
+      user: new mongoose.Types.ObjectId(userId), // Convert to ObjectId
       balance: 1000,
       accountNumber: '123456'
     });

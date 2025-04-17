@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>4/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -81,11 +81,11 @@
 <a name='L16'></a><a href='#L16'>16</a>
 <a name='L17'></a><a href='#L17'>17</a>
 <a name='L18'></a><a href='#L18'>18</a>
-<a name='L19'></a><a href='#L19'>19</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L19'></a><a href='#L19'>19</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -93,17 +93,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-yes">27x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { A</span>uthController } from './auth.controller';
-<span class="cstat-no" title="statement not covered" >import { U</span>serController } from './user.controller';
-<span class="cstat-no" title="statement not covered" >import { A</span>ccountController } from './account.controller';
-<span class="cstat-no" title="statement not covered" >import { T</span>ransactionController } from './transaction.controller';
-<span class="cstat-no" title="statement not covered" >import { T</span>ransactionReportController } from './transaction-report.controller';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { AuthController } from './auth.controller';
+import { UserController } from './user.controller';
+import { AccountController } from './account.controller';
+import { TransactionController } from './transaction.controller';
+import { TransactionReportController } from './transaction-report.controller';
 &nbsp;
 /**
  * Arquivo de índice para exportar todos os controladores
@@ -111,11 +111,11 @@
  */
 &nbsp;
 export {
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  AuthController,</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  UserController,</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  AccountController,</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  TransactionController,</span></span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  TransactionReportController</span></span>
+  AuthController,
+  UserController,
+  AccountController,
+  TransactionController,
+<span class="fstat-no" title="function not covered" >  TransactionReportController</span>
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -124,7 +124,7 @@ export {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-17T13:50:53.702Z
+                at 2025-04-17T14:36:13.992Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

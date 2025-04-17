@@ -89,13 +89,13 @@ UserSchema.pre<IUser>('save', async function (next) {
 /**
  * Método para comparar senha
  */
-UserSchema.methods.comparePassword = async function (
-  candidatePassword: string
-): Promise<boolean> {
+UserSchema.methods.comparePassword = async function(candidatePassword: string): Promise<boolean> {
   try {
+    if (!candidatePassword) return false;
     return await bcrypt.compare(candidatePassword, this.password);
   } catch (error) {
-    throw new Error('Erro ao comparar senha');
+    console.error('Password comparison error:', error);
+    return false; // Return false instead of throwing
   }
 };
 

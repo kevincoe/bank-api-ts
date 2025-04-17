@@ -311,19 +311,15 @@ let swaggerSpec: any;
 try {
   // Only generate spec if not in test environment
   if (process.env.NODE_ENV !== 'test') {
-    // Fix: Use JavaScript files in dist folder instead of TypeScript files
+    // Point to the compiled JavaScript files
     const modifiedOptions = {
       ...swaggerOptions,
       apis: ['./dist/routes/*.js']
     };
     swaggerSpec = swaggerJsdoc(modifiedOptions);
   } else {
-    // Provide placeholder during tests
-    swaggerSpec = {
-      openapi: '3.0.0',
-      info: { title: 'Test API', version: '1.0.0' },
-      paths: {}
-    };
+    // Mock for testing
+    swaggerSpec = { openapi: '3.0.0', info: { title: 'Test API', version: '1.0.0' }, paths: {} };
   }
 } catch (error) {
   console.warn('Swagger spec generation error:', error);

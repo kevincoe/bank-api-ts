@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/7</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -168,7 +168,7 @@
 <a name='L103'></a><a href='#L103'>103</a>
 <a name='L104'></a><a href='#L104'>104</a>
 <a name='L105'></a><a href='#L105'>105</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -178,7 +178,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -200,7 +200,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -222,7 +222,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -248,7 +248,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -257,7 +257,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -266,13 +266,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Request, Response, NextFunction } from 'express';
-<span class="cstat-no" title="statement not covered" >import { body, param } from 'express-validator';</span>
+import { body, param } from 'express-validator';
 import { TransactionType } from '../models';
 &nbsp;
 /**
@@ -282,7 +282,7 @@ import { TransactionType } from '../models';
 /**
  * Validação para depósito
  */
-export const <span class="cstat-no" title="statement not covered" >depositValidation = [</span>
+export const depositValidation = [
   body('destinationAccountId')
     .isMongoId()
     .withMessage('ID de conta de destino inválido'),
@@ -304,7 +304,7 @@ export const <span class="cstat-no" title="statement not covered" >depositValida
 /**
  * Validação para saque
  */
-export const <span class="cstat-no" title="statement not covered" >withdrawValidation = [</span>
+export const withdrawValidation = [
   body('sourceAccountId')
     .isMongoId()
     .withMessage('ID de conta de origem inválido'),
@@ -326,7 +326,7 @@ export const <span class="cstat-no" title="statement not covered" >withdrawValid
 /**
  * Validação para transferência
  */
-export const <span class="cstat-no" title="statement not covered" >transferValidation = [</span>
+export const transferValidation = [
   body('sourceAccountId')
     .isMongoId()
     .withMessage('ID de conta de origem inválido'),
@@ -352,7 +352,7 @@ export const <span class="cstat-no" title="statement not covered" >transferValid
 /**
  * Validação para busca de transação por ID
  */
-export const <span class="cstat-no" title="statement not covered" >getTransactionByIdValidation = [</span>
+export const getTransactionByIdValidation = [
   param('id')
     .isMongoId()
     .withMessage('ID de transação inválido')
@@ -361,7 +361,7 @@ export const <span class="cstat-no" title="statement not covered" >getTransactio
 /**
  * Validação para busca de transações por conta
  */
-export const <span class="cstat-no" title="statement not covered" >getAccountTransactionsValidation = [</span>
+export const getAccountTransactionsValidation = [
   param('accountId')
     .isMongoId()
     .withMessage('ID de conta inválido')
@@ -370,7 +370,7 @@ export const <span class="cstat-no" title="statement not covered" >getAccountTra
 /**
  * Validação para cancelamento de transação
  */
-export const <span class="cstat-no" title="statement not covered" >cancelTransactionValidation = [</span>
+export const cancelTransactionValidation = [
   param('id')
     .isMongoId()
     .withMessage('ID de transação inválido')
@@ -382,7 +382,7 @@ export const <span class="cstat-no" title="statement not covered" >cancelTransac
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-17T13:50:53.702Z
+                at 2025-04-17T14:36:13.992Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

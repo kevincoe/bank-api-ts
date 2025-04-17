@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -91,10 +91,10 @@
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
 <a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L29'></a><a href='#L29'>29</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -102,9 +102,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -115,14 +115,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { UserRepository, IUserRepository } from './user.repository';</span>
-<span class="cstat-no" title="statement not covered" >import { AccountRepository, IAccountRepository } from './account.repository';</span>
-<span class="cstat-no" title="statement not covered" >import { TransactionRepository, ITransactionRepository } from './transaction.repository';</span>
-<span class="cstat-no" title="statement not covered" >import { User, Account, Transaction } from '../models';</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { UserRepository, IUserRepository } from './user.repository';
+import { AccountRepository, IAccountRepository } from './account.repository';
+import { TransactionRepository, ITransactionRepository } from './transaction.repository';
+import { User, Account, Transaction } from '../models';
 &nbsp;
 /**
  * Arquivo de índice para exportar todos os repositórios
@@ -130,9 +130,9 @@
  */
 &nbsp;
 // Criação de instâncias dos repositórios
-const userRepository: IUserRepository = <span class="cstat-no" title="statement not covered" >new UserRepository(User);</span>
-const accountRepository: IAccountRepository = <span class="cstat-no" title="statement not covered" >new AccountRepository(Account);</span>
-const transactionRepository: ITransactionRepository = <span class="cstat-no" title="statement not covered" >new TransactionRepository(Transaction);</span>
+const userRepository: IUserRepository = new UserRepository(User);
+const accountRepository: IAccountRepository = new AccountRepository(Account);
+const transactionRepository: ITransactionRepository = new TransactionRepository(Transaction);
 &nbsp;
 // Exportação das interfaces
 export {
@@ -143,9 +143,9 @@ export {
 &nbsp;
 // Exportação das instâncias
 export {
-<span class="cstat-no" title="statement not covered" >  userRepository,</span>
-<span class="cstat-no" title="statement not covered" >  accountRepository,</span>
-<span class="cstat-no" title="statement not covered" >  transactionRepository</span>
+  userRepository,
+  accountRepository,
+  transactionRepository
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -154,7 +154,7 @@ export {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-17T13:50:53.702Z
+                at 2025-04-17T14:36:13.992Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>5/10</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>4/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/10</span>
+                <span class='fraction'>5/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -160,18 +160,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -192,14 +185,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -239,11 +239,11 @@ export interface IUserRepository {
 /**
  * Implementação do repositório de usuários
  */
-<span class="cstat-no" title="statement not covered" >export class U</span>serRepository implements IUserRepository {
+export class UserRepository implements IUserRepository {
   private User: any;
 &nbsp;
-<span class="fstat-no" title="function not covered" >  constructor(U</span>ser: any) {
-<span class="cstat-no" title="statement not covered" >    this.User = User;</span>
+  constructor(User: any) {
+    this.User = User;
   }
 &nbsp;
   /**
@@ -263,22 +263,22 @@ export interface IUserRepository {
   /**
    * Encontra um usuário pelo email
    */
-<span class="fstat-no" title="function not covered" >  async </span>findByEmail(email: string): Promise&lt;IUser | null&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.User.findOne({ email });</span>
+  async findByEmail(email: string): Promise&lt;IUser | null&gt; {
+    return this.User.findOne({ email });
   }
 &nbsp;
   /**
    * Encontra um usuário pelo CPF
    */
-<span class="fstat-no" title="function not covered" >  async </span>findByCpf(cpf: string): Promise&lt;IUser | null&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.User.findOne({ cpf });</span>
+  async findByCpf(cpf: string): Promise&lt;IUser | null&gt; {
+    return this.User.findOne({ cpf });
   }
 &nbsp;
   /**
    * Cria um novo usuário
    */
-<span class="fstat-no" title="function not covered" >  async </span>create(userData: Partial&lt;IUser&gt;): Promise&lt;IUser&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.User.create(userData);</span>
+  async create(userData: Partial&lt;IUser&gt;): Promise&lt;IUser&gt; {
+    return this.User.create(userData);
   }
 &nbsp;
   /**
@@ -307,7 +307,7 @@ export interface IUserRepository {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-17T13:50:53.702Z
+                at 2025-04-17T14:36:13.992Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
