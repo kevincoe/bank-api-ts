@@ -1,8 +1,7 @@
-import mongoose from 'mongoose';
-import { MongoMemoryServer } from 'mongodb-memory-server';
 import request from 'supertest';
+import mongoose from 'mongoose';
 import App from '../../app';
-import { User } from '../../models/user.model';
+import { User } from '../../models';
 import jwt from 'jsonwebtoken';
 import config from '../../config/config';
 

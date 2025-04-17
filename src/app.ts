@@ -1,4 +1,4 @@
-import express, { Application } from 'express';
+import express, { Application, Express } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -6,23 +6,21 @@ import config from './config/config';
 import Database from './config/database';
 import { errorHandler } from './utils/error.utils';
 import { setupSwagger } from './utils/swagger.utils';
-import { 
-  notFound, 
-  requestLogger, 
-  validateJSON, 
-  rateLimit,
-  validateContentType,
-  preventNoSql,
-  sanitizeData,
-  securityHeaders
+import {
+  verifyToken,
+  securityMiddleware,
+  validate,
+  authenticate,
+  authorize
 } from './middlewares';
-import { 
-  authRoutes, 
-  userRoutes, 
-  accountRoutes, 
-  transactionRoutes, 
+
+import {
+  authRoutes,
+  userRoutes,
+  accountRoutes,
+  transactionRoutes,
   profileRoutes,
-  transactionReportRoutes 
+  transactionReportRoutes
 } from './routes';
 
 /**
@@ -45,7 +43,7 @@ class App {
   private configureMiddlewares(): void {
     // Segurança básica
     this.app.use(helmet());
-    this.app.use(securityHeaders);
+    this.app.use(securityMiddleware.securityHeaders.bind(securityMiddleware));
     
     // CORS
     this.app.use(cors());
@@ -53,20 +51,21 @@ class App {
     // Logging
     if (config.env === 'development') {
       this.app.use(morgan('dev'));
-    } else {
-      this.app.use(requestLogger);
     }
     
     // Limitação de taxa - 100 requisições por 15 minutos
-    this.app.use(rateLimit(100, 15 * 60 * 1000));
+    const rateLimit = require('express-rate-limit');
+    this.app.use(rateLimit({
+      windowMs: 15 * 60 * 1000,
+      max: 100
+    }));
     
     // Validação e sanitização
-    this.app.use(validateContentType);
+    this.app.use(securityMiddleware.validateContentType.bind(securityMiddleware));
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-    this.app.use(validateJSON);
-    this.app.use(preventNoSql);
-    this.app.use(sanitizeData);
+    this.app.use(securityMiddleware.preventNoSql.bind(securityMiddleware));
+    this.app.use(securityMiddleware.sanitizeData.bind(securityMiddleware));
   }
 
   /**
@@ -96,7 +95,7 @@ class App {
    * Configura o Swagger para documentação da API
    */
   private configureSwagger(): void {
-    setupSwagger(this.app);
+    setupSwagger(this.app as unknown as Express);
   }
 
   /**
@@ -104,7 +103,11 @@ class App {
    */
   private configureErrorHandling(): void {
     // Middleware para rotas não encontradas
-    this.app.use(notFound);
+    this.app.use((req, res, next) => {
+      const err = new Error(`Rota não encontrada - ${req.originalUrl}`);
+      res.status(404);
+      next(err);
+    });
     
     // Middleware para tratamento global de erros
     this.app.use(errorHandler);
@@ -120,11 +123,16 @@ class App {
       
       // Inicia o servidor
       this.app.listen(config.port, () => {
-        console.log(`Servidor rodando na porta ${config.port} em modo ${config.env}`);
-        console.log(`Documentação Swagger disponível em http://localhost:${config.port}/api/docs`);
+        // Use debug logs in production instead of console.log
+        if (config.env === 'development') {
+          console.log(`Servidor rodando na porta ${config.port} em modo ${config.env}`);
+          console.log(`Documentação Swagger disponível em http://localhost:${config.port}/api/docs`);
+        }
       });
     } catch (error) {
-      console.error('Erro ao iniciar o servidor:', error);
+      if (config.env === 'development') {
+        console.error('Erro ao iniciar o servidor:', error);
+      }
       process.exit(1);
     }
   }
