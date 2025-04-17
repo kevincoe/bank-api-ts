@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/12</span>
+                <span class='fraction'>6/12</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">10% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/10</span>
+                <span class='fraction'>5/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/12</span>
+                <span class='fraction'>6/12</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -211,7 +211,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -221,16 +221,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -257,6 +248,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -273,14 +273,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -327,8 +327,8 @@ export class TransactionRepository implements ITransactionRepository {
   /**
    * Encontra todas as transações
    */
-<span class="fstat-no" title="function not covered" >  async </span>findAll(): Promise&lt;ITransaction[]&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.Transaction.find()</span>
+  async findAll(): Promise&lt;ITransaction[]&gt; {
+    return this.Transaction.find()
       .populate('sourceAccount', 'accountNumber')
       .populate('destinationAccount', 'accountNumber')
       .sort({ createdAt: -1 });
@@ -337,8 +337,8 @@ export class TransactionRepository implements ITransactionRepository {
   /**
    * Encontra uma transação pelo ID
    */
-<span class="fstat-no" title="function not covered" >  async </span>findById(id: string): Promise&lt;ITransaction | null&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.Transaction.findById(id)</span>
+  async findById(id: string): Promise&lt;ITransaction | null&gt; {
+    return this.Transaction.findById(id)
       .populate('sourceAccount', 'accountNumber')
       .populate('destinationAccount', 'accountNumber');
   }
@@ -389,15 +389,15 @@ export class TransactionRepository implements ITransactionRepository {
   /**
    * Cria uma nova transação
    */
-<span class="fstat-no" title="function not covered" >  async </span>create(transactionData: Partial&lt;ITransaction&gt;): Promise&lt;ITransaction&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.Transaction.create(transactionData);</span>
+  async create(transactionData: Partial&lt;ITransaction&gt;): Promise&lt;ITransaction&gt; {
+    return this.Transaction.create(transactionData);
   }
 &nbsp;
   /**
    * Atualiza o status de uma transação
    */
-<span class="fstat-no" title="function not covered" >  async </span>updateStatus(id: string, status: TransactionStatus): Promise&lt;ITransaction | null&gt; {
-<span class="cstat-no" title="statement not covered" >    return this.Transaction.findByIdAndUpdate(</span>
+  async updateStatus(id: string, status: TransactionStatus): Promise&lt;ITransaction | null&gt; {
+    return this.Transaction.findByIdAndUpdate(
       id,
       { status },
       { new: true, runValidators: true }
@@ -421,7 +421,7 @@ export class TransactionRepository implements ITransactionRepository {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-04-17T14:36:13.992Z
+                at 2025-04-17T14:54:31.776Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
