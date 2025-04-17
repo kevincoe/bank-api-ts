@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateJSON = exports.requestLogger = exports.notFound = exports.securityMiddleware = exports.verifyToken = exports.validate = exports.authorize = exports.authenticate = void 0;
+exports.rateLimit = exports.notFound = exports.securityMiddleware = exports.verifyToken = exports.validate = exports.authorize = exports.authenticate = void 0;
 const common_middleware_1 = require("./common.middleware");
 Object.defineProperty(exports, "validate", { enumerable: true, get: function () { return common_middleware_1.validate; } });
 const verify_token_middleware_1 = require("./verify-token.middleware");
@@ -34,38 +34,7 @@ const notFound = (req, res, next) => {
     next(error);
 };
 exports.notFound = notFound;
-const requestLogger = (req, res, next) => {
-    const start = Date.now();
-    res.on('finish', () => {
-        const ms = Date.now() - start;
-        console.log(`${req.method} ${req.originalUrl} ${res.statusCode} ${ms}ms`);
-    });
-    next();
-};
-exports.requestLogger = requestLogger;
-// Create validateJSON middleware
-const validateJSON = (req, res, next) => {
-    if ((req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') &&
-        req.headers['content-type'] === 'application/json') {
-        try {
-            if (req.body && typeof req.body === 'object') {
-                next();
-            }
-            else {
-                throw new Error('Invalid JSON');
-            }
-        }
-        catch (e) {
-            res.status(400).json({
-                status: 'error',
-                message: 'Invalid JSON in request body'
-            });
-            return;
-        }
-    }
-    next();
-};
-exports.validateJSON = validateJSON;
 // Create rate limiting middleware
 const rateLimit = require('express-rate-limit');
+exports.rateLimit = rateLimit;
 //# sourceMappingURL=index.js.map

@@ -111,20 +111,20 @@ describe('Auth Controller', () => {
       // Criar usuário para teste
       const userData = {
         name: 'Usuário Login',
-        email: 'login@email.com',
+        email: 'login@test.com', 
         password: 'Senha@123',
-        cpf: '12345678900',
-        role: 'admin'
+        cpf: '12345678900'
       };
       
+      // Register the user first
       await request(app.app)
         .post('/api/auth/register')
         .send(userData);
-      
-      // Tentar fazer login
+        
+      // Then login with the same credentials
       const loginData = {
         email: userData.email,
-        password: userData.password
+        password: userData.password  // Use exact same password
       };
       
       const response = await request(app.app)

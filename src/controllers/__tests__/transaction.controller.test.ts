@@ -288,7 +288,7 @@ describe('Transaction Controller', () => {
       
       expect(response.body.status).toBe('success');
       expect(response.body.data).toHaveProperty('transaction');
-      expect(response.body.data.transaction.id).toBe(transaction.id.toString());
+      expect(response.body.data.transaction._id).toBe(transaction.id.toString());
       expect(response.body.data.transaction.type).toBe(transaction.type);
       expect(response.body.data.transaction.amount).toBe(transaction.amount);
     });

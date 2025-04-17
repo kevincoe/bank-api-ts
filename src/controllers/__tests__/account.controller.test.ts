@@ -32,15 +32,19 @@ describe('Account Controller', () => {
       email: 'teste@email.com',
       password: 'Senha@123',
       cpf: '12345678900',
-      role: 'admin' // Admin para ter acesso a todas as operações
+      role: 'admin' // Make sure this is set to 'admin'
     };
     
     const response = await request(app.app)
-      .post('/api/auth/register')
-      .send(userData);
-    
-    authToken = response.body.data.token;
-    userId = response.body.data.user.id;
+    .post('/api/auth/register')
+    .send(userData);
+  
+  authToken = response.body.data.token;
+  userId = response.body.data.user.id;
+  
+  // Optional: Verify that the user was created with admin role
+  const user = await User.findById(userId);
+  console.log('Test user role:', user?.role);
   });
   
   afterAll(async () => {
@@ -146,7 +150,7 @@ describe('Account Controller', () => {
       // Criar uma conta para teste
       const account = await Account.create({
         type: 'checking',
-        user: userId,
+        user: new mongoose.Types.ObjectId(userId),
         balance: 1000,
         accountNumber: '123456'
       });
@@ -179,7 +183,7 @@ describe('Account Controller', () => {
       // Criar uma conta para teste
       const account = await Account.create({
         type: 'checking',
-        user: userId,
+        user: new mongoose.Types.ObjectId(userId),
         balance: 1000,
         accountNumber: '123456'
       });
@@ -209,7 +213,7 @@ describe('Account Controller', () => {
       // Criar uma conta para teste
       const account = await Account.create({
         type: 'checking',
-        user: userId,
+        user: new mongoose.Types.ObjectId(userId),
         balance: 0, // Saldo zero para permitir remoção
         accountNumber: '123456'
       });
@@ -230,7 +234,7 @@ describe('Account Controller', () => {
       // Criar uma conta para teste com saldo
       const account = await Account.create({
         type: 'checking',
-        user: userId,
+        user: new mongoose.Types.ObjectId(userId),
         balance: 1000,
         accountNumber: '123456'
       });
