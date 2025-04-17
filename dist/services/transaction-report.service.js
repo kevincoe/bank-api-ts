@@ -122,16 +122,23 @@ Status: ${this.getTransactionStatusText(transaction.status)}
         let countTransfersOut = 0;
         // Calcular totais
         filteredTransactions.forEach((transaction) => {
-            if (transaction.type === 'deposit' && transaction.destinationAccount.toString() === accountId) {
+            if (transaction.type === 'deposit' && transaction.destinationAccount?.toString() === accountId) {
                 totalDeposits += transaction.amount;
                 countDeposits++;
             }
-            else if (transaction.type === 'withdrawal' && transaction.sourceAccount.toString() === accountId) {
+            else if (transaction.type === 'withdrawal' && transaction.sourceAccount?.toString() === accountId) {
                 totalWithdrawals += transaction.amount;
                 countWithdrawals++;
             }
             else if (transaction.type === 'transfer') {
-                // Handle transfers
+                if (transaction.sourceAccount?.toString() === accountId) {
+                    totalTransfersOut += transaction.amount;
+                    countTransfersOut++;
+                }
+                if (transaction.destinationAccount?.toString() === accountId) {
+                    totalTransfersIn += transaction.amount;
+                    countTransfersIn++;
+                }
             }
         });
         // Calcular saldo final

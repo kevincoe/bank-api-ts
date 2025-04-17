@@ -92,7 +92,7 @@ AccountSchema.statics.generateAccountNumber = async function () {
     }
     return accountNumber;
 };
-// Use the interface with static method
+// Create the model with the correct interface
 const Account = mongoose_1.default.model('Account', AccountSchema);
 exports.default = Account;
 //# sourceMappingURL=account.model.js.map

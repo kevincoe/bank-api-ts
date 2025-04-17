@@ -82,7 +82,7 @@ AccountSchema.statics.generateAccountNumber = async function(): Promise<string> 
   return accountNumber;
 };
 
-// Use the interface with static method
+// Fix: Use the IAccountModel type explicitly when creating the model
 const Account = mongoose.model<IAccount, IAccountModel>('Account', AccountSchema);
 
 export default Account;

@@ -55,6 +55,7 @@ class AuthService {
     /**
      * Gera um token JWT para o usuário
      */
+    // Only showing the relevant part to fix:
     generateToken(user) {
         return jsonwebtoken_1.default.sign({ id: user._id }, config_1.default.jwtSecret, { expiresIn: config_1.default.jwtExpiresIn });
     }

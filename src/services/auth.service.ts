@@ -3,6 +3,7 @@ import { AppError } from '../utils/error.utils';
 import { IUser } from '../models/user.model';
 import jwt from 'jsonwebtoken';
 import config from '../config/config';
+import { SignOptions } from 'jsonwebtoken';
 
 /**
  * Interface para o serviço de autenticação
@@ -69,10 +70,10 @@ export class AuthService implements IAuthService {
    * Gera um token JWT para o usuário
    */
   private generateToken(user: IUser): string {
-    return jwt.sign(
-      { id: user._id },
-      config.jwtSecret as string,
-      { expiresIn: config.jwtExpiresIn }
-    );
+    const payload = { id: user._id };
+    const secret = config.jwtSecret as string;
+    const options: SignOptions = { expiresIn: config.jwtExpiresIn };
+    
+    return jwt.sign(payload, secret, options);
   }
 }
