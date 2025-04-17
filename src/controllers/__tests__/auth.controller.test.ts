@@ -44,7 +44,8 @@ describe('Auth Controller', () => {
         password: 'Senha@123',
         cpf: '12345678900',
         phone: '11987654321',
-        address: 'Rua Teste, 123'
+        address: 'Rua Teste, 123',
+        role: 'admin'
       };
       
       const response = await request(app.app)

@@ -114,10 +114,12 @@ describe('Account Controller', () => {
   describe('GET /api/accounts', () => {
     it('deve listar todas as contas', async () => {
       // Criar algumas contas para teste
-      await Account.create([
-        { type: 'checking', user: userId, balance: 1000, accountNumber: '123456' },
-        { type: 'savings', user: userId, balance: 2000, accountNumber: '654321' }
-      ]);
+      await Account.create({
+        type: 'checking',
+        user: new mongoose.Types.ObjectId(userId), // Convert string ID to ObjectId
+        balance: 1000,
+        accountNumber: '123456'
+      });
       
       const response = await request(app.app)
         .get('/api/accounts')

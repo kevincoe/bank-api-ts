@@ -157,7 +157,7 @@ describe('Transaction Controller', () => {
         .expect(400);
       
       expect(response.body.status).toBe('error');
-      expect(response.body.message).toContain('saldo insuficiente');
+      expect(response.body.message).toBe('Saldo insuficiente');
       
       // Verificar se o saldo da conta não foi alterado
       const account = await Account.findById(sourceAccountId);
@@ -209,7 +209,7 @@ describe('Transaction Controller', () => {
         .expect(400);
       
       expect(response.body.status).toBe('error');
-      expect(response.body.message).toContain('saldo insuficiente');
+      expect(response.body.message).toBe('Saldo insuficiente');
       
       // Verificar se os saldos das contas não foram alterados
       const sourceAccount = await Account.findById(sourceAccountId);
