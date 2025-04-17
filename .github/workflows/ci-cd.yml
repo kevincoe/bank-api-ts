@@ -13,50 +13,7 @@ env:
   JWT_EXPIRES_IN: 1h
 
 jobs:
-  lint-and-format:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: Use Node.js 20.x
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20.x
-        
-    - name: Cache node modules
-      uses: actions/cache@v3
-      id: npm-cache
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-          
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Install ESLint v8
-      run: npm install eslint@8.x --save-dev
-      
-    - name: Install Prettier
-      run: npm install prettier --save-dev
-      
-    - name: Format code
-      run: npx prettier --write "**/*.{js,ts,json,md}"
-      
-    - name: Lint
-      run: npm run lint
-      continue-on-error: true  # Don't fail the build on lint errors
-      
-    - name: Upload formatted code
-      uses: actions/upload-artifact@v3
-      with:
-        name: formatted-code
-        path: src/
-        
-  test:
-    needs: lint-and-format
+  build-and-test:
     runs-on: ubuntu-latest
     
     strategy:
@@ -67,36 +24,29 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: Download formatted code
-      uses: actions/download-artifact@v3
-      with:
-        name: formatted-code
-        path: src/
-    
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+        cache: 'npm'
     
     - name: Start MongoDB
       uses: supercharge/mongodb-github-action@1.10.0
       with:
         mongodb-version: ${{ matrix.mongodb-version }}
-        
-    - name: Cache node modules
-      uses: actions/cache@v3
-      id: npm-cache
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
     
     - name: Install dependencies
       run: npm ci
       
-    - name: Install ESLint v8
-      run: npm install eslint@8.x --save-dev
+    - name: Install ESLint v8 and Prettier
+      run: npm install eslint@8.x prettier@2.x --save-dev
+      
+    - name: Format code
+      run: npx prettier --write "**/*.{js,ts,json,md}"
+      
+    - name: Lint
+      run: npx eslint --fix "src/**/*.ts"
+      continue-on-error: true
     
     - name: Build
       run: npm run build
@@ -109,13 +59,14 @@ jobs:
     - name: Upload coverage reports
       uses: codecov/codecov-action@v3
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
         directory: ./coverage/
         fail_ci_if_error: false
         
-  build:
-    needs: test
+  deploy:
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
+    environment: production
     
     steps:
     - uses: actions/checkout@v3
@@ -124,33 +75,13 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: 20.x
+        cache: 'npm'
     
     - name: Install dependencies
       run: npm ci
     
     - name: Build
       run: npm run build
-      
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: dist
-        path: dist/
-        
-  deploy-ssh:
-    needs: build
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
-    environment: production
-    
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: Download build artifacts
-      uses: actions/download-artifact@v3
-      with:
-        name: dist
-        path: dist/
     
     - name: Deploy to production server
       run: |
