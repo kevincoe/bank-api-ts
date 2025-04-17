@@ -1,6 +1,7 @@
 import request from 'supertest';
 import mongoose from 'mongoose';
 import App from '../../app';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 import { User, Account, Transaction } from '../../models';
 
 describe('Transaction Controller', () => {
